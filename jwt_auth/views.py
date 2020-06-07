@@ -16,6 +16,7 @@ User = get_user_model()
 
 class RegisterView(APIView):
 
+
     ##? Post request to provide information for registration.
     ## tested? yes
     ## Errors tested? yes

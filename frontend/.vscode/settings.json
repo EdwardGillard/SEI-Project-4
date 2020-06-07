@@ -1,0 +1,10 @@
+{
+  "python.pythonPath": "/Users/edwardgillard/.local/share/virtualenvs/SEI-Project-4-HVknxWtj/bin/python",
+  "workbench.colorTheme": "Default Dark+",
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#ff0000",
+    "titleBar.activeBackground": "#ff0000",
+    "titleBar.inactiveBackground": "#ff0000",
+  },
+  "window.title": "---FRONT-END---",
+}

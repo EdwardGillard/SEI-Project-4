@@ -33,4 +33,5 @@ class User(AbstractUser):
     television_preferences = models.CharField(max_length= 300, validators=[MinLengthValidator(100)])
     literature_preferences = models.CharField(max_length= 300, validators=[MinLengthValidator(100)])
     other_interests = models.CharField(max_length= 300, validators=[MinLengthValidator(100)])
+    postcode = models.CharField(max_length= 10)
 

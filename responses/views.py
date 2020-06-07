@@ -1,3 +1,31 @@
-from django.shortcuts import render
+# pylint: disable=no-member, no-self-use
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import NotFound, PermissionDenied
 
-# Create your views here.
+from chats.models import Chats
+from jwt_auth.models import User
+
+from .serializers import ResponsesSerializer
+
+
+class ResponsesListView(APIView):
+
+    permission_classes = (IsAuthenticated, )
+
+    def find_chat(self, request):
+        try:
+            return Chats.objects.get(id=request)
+        except Chats.DoesNotExist:
+            raise PermissionDenied({'message': 'Unable to find this chat'})
+    
+    def post(self, request):
+        request.data['owner'] = request.user.id
+        chat = request.data['chat']
+        self.find_chat(chat)
+        responses = ResponsesSerializer(data=request.data)
+        if responses.is_valid():
+            responses.save()
+            return Response(responses.data, status=status.HTTP_201_CREATED)

@@ -9,7 +9,7 @@ class Responses(models.Model):
         related_name='response',
         on_delete=models.CASCADE
     )
-    reponse = models.CharField(max_length= 500)
+    response = models.CharField(max_length= 500)
     owner= models.ForeignKey(
         'jwt_auth.User',
         related_name='owner',

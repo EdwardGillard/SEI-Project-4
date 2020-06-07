@@ -24,8 +24,7 @@ class ChatsListView(APIView):
 
     def post(self, request):
         request.data['owner'] = request.user.id
-        second_user = request.data['second_user']
-        self.find_user(second_user)
+        self.find_user(request.data['second_user'])
         start_chat = ChatsSerializer(data=request.data)
         if start_chat.is_valid():
             start_chat.save()
