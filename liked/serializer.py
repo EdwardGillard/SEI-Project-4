@@ -9,12 +9,12 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username')
+        fields = ('id', )
 
 class LikedUserSerializer(serializers.ModelSerializer):
     class Meta: 
         model = User
-        fields = '__all__'
+        fields = ('id', 'username', 'profile_image')
 
 class LikedSerializer(serializers.ModelSerializer):
     class Meta:

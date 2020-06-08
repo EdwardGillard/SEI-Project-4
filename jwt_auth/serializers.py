@@ -32,6 +32,11 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
 class PopulatedUserSerializer(UserSerializer):
     liked_user=PopulatedLikedSerializer(many=True)
     liked_owner=PopulatedLikedSerializer(many=True)

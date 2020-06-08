@@ -15,6 +15,7 @@ class DislikedListView(APIView):
 
     permission_classes = (IsAuthenticatedOrReadOnly, )
 
+    ##? Find user in user model.
     def find_user(self, request):
         try:
             user = User.objects.get(id=request)
@@ -22,6 +23,9 @@ class DislikedListView(APIView):
         except User.DoesNotExist:
             raise PermissionDenied({'message': 'Not a valid user'})
 
+    ##? Add user to dislikes.
+    ## TESTED? ##! YES
+    ## ERRORS TESTED? ##! YES
     def post(self, request):
         request.data['owner'] = request.user.id
         disliked_user = request.data['disliked_user']

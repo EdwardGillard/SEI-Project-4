@@ -15,13 +15,16 @@ class ChatsListView(APIView):
 
     permission_classes = (IsAuthenticated, )
 
+    ##? Function to find a user in user model.
     def find_user(self, request):
         try:
             return User.objects.get(id=request)
         except User.DoesNotExist:
             raise PermissionDenied({'message': 'Not a valid user'})
 
-
+    ##? POST to start a chat.
+    ## TESTED? ##! YES
+    ## ERRORS TESTED? ##! YES
     def post(self, request):
         request.data['owner'] = request.user.id
         self.find_user(request.data['second_user'])

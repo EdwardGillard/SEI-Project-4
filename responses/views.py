@@ -15,12 +15,16 @@ class ResponsesListView(APIView):
 
     permission_classes = (IsAuthenticated, )
 
+    ##? FIND the chat.
     def find_chat(self, request):
         try:
             return Chats.objects.get(id=request)
         except Chats.DoesNotExist:
             raise PermissionDenied({'message': 'Unable to find this chat'})
     
+    ##? POST to chat.
+    ## TESTED? ##! YES
+    ## ERRORS TESTED? ##! YES
     def post(self, request):
         request.data['owner'] = request.user.id
         chat = request.data['chat']

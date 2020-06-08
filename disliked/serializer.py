@@ -8,12 +8,12 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username')
+        fields = ('id', )
 
 class DislikedUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('id', 'username', 'profile_image')
 
 class DislikedSerializer(serializers.ModelSerializer):
     class Meta:

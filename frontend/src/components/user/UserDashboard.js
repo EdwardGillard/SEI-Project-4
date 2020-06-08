@@ -19,7 +19,7 @@ function UserDashboard() {
       {loading ? <h1>loading</h1> :
         <div className="main-page">
           <h1>My profile</h1>
-          <img src={user.profile_image} alt={`${user.username}'s image`} />
+          <img className="user-dashboard" src={user.profile_image} alt={`${user.username}'s image`} height='200' width='200'/>
           <h3>{user.username}</h3>
           <div className="chats">
             {user.chat_user_one.map(chat => (
