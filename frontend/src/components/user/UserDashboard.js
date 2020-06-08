@@ -18,6 +18,7 @@ function UserDashboard() {
   }
 
   const handleMessageStart = async e => {
+    e.preventDefault()
     try {
       const res = await beginChat(e.target.value)
       console.log(res)

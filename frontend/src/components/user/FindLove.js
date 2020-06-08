@@ -5,7 +5,7 @@ import { getAUser, addToFavourites, addToDisliked, getDashboard } from '../../li
 import { Swipeable } from 'react-swipeable'
 
 function FindLove() {
-  const { data: user, loading, error } = useFetch(getAUser, 'ed')
+  const { data: user, loading, error } = useFetch(getAUser, 'admin')
   const { data: currentUser } = useFetch(getDashboard)
 
 

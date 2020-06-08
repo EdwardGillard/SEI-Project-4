@@ -66,7 +66,7 @@ function Register() {
             />
           </div>
           <div>
-            <label>First name:</label>
+            <label>Profile Image:</label>
             <input
               type="text"
               name="profile_image"

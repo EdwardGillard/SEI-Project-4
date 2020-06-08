@@ -22,5 +22,5 @@ urlpatterns = [
     path('api/liked/', include('liked.urls')),
     path('api/disliked/', include('disliked.urls')),
     path('api/chats/', include('chats.urls')),
-    path('api/responses', include('responses.urls'))
+    path('api/responses/', include('responses.urls'))
 ]

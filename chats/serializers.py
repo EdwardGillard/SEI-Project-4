@@ -17,6 +17,6 @@ class ChatsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PopulatedChatSerializer(ChatsSerializer):
-    current_user = UserSerializer()
+    owner = UserSerializer()
     second_user = UserSerializer()
     response=PopulatedResponseSerializer(many=True)

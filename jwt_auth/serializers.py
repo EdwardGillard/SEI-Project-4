@@ -43,7 +43,6 @@ class PopulatedUserSerializer(UserSerializer):
     disliked_owner=PopulatedDislikedSerializer(many=True)
     disliked_user=PopulatedDislikedSerializer(many=True)
     chat_user_one=PopulatedChatSerializer(many=True)
-    chat_user_two=PopulatedChatSerializer(many=True)
 
 
 
