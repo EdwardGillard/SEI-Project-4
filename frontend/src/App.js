@@ -6,6 +6,7 @@ import Navbar from './components/common/Navbar'
 import Login from './components/auth/Login'
 import Register from './components/auth/Register'
 import UserDashboard from './components/user/UserDashboard'
+import FindLove from './components/user/FindLove'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path='/login' component={Login} />
         <Route path='/register' component={Register} />
         <Route path='/myprofile' component={UserDashboard} />
+        <Route path='/findlove' component={FindLove} />
       </Switch>
     </BrowserRouter>
   )

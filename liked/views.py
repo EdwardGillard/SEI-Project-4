@@ -60,7 +60,7 @@ class LikedDeleteView(APIView):
         # add_to_disliked = DislikedSerializer(data=add_to_disliked)
         # if add_to_dislikes.is_valid():
         #     add_to_dislikes.push()
-        # fav_to_remove.delete()
+        fav_to_remove.delete()
         return Response({'message': 'Removed from favourites'})
 
 

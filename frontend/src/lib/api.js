@@ -44,8 +44,8 @@ export const getAllUsers = () => {
 }
 
 //? GET A SINGLE USER.
-export const getAUser = id => {
-  return axios.get(`${datingAppUrl}/auth/profile${id}`, withHeaders())
+export const getAUser = username => {
+  return axios.get(`${datingAppUrl}/auth/profile/${username}/`, withHeaders())
 }
 
 //! --------------- LIKES/DISLIKES ----------------
@@ -68,8 +68,9 @@ export const addToDisliked = data => {
 //! ---------------- CHATS WITH USER ----------------
 
 //? START A CHAT. 
-export const beginChat = data => {
-  return axios.post(`${datingAppUrl}/chats`, data, withHeaders())
+export const beginChat = id => {
+  console.log(withHeaders())
+  return axios.post(`${datingAppUrl}/chats/${id}/`, withHeaders())
 }
 
 //? REPLY TO CHAT.

@@ -13,22 +13,25 @@ from .serializers import ChatsSerializer
 
 class ChatsListView(APIView):
 
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
-    ##? Function to find a user in user model.
-    def find_user(self, request):
+    # ? Function to find a user in user model.
+    def find_user(self, pk):
         try:
-            return User.objects.get(id=request)
+            return User.objects.get(pk=pk)
         except User.DoesNotExist:
-            raise PermissionDenied({'message': 'Not a valid user'})
+            raise NotFound({'message': 'Not a valid user'})
 
-    ##? POST to start a chat.
-    ## TESTED? ##! YES
-    ## ERRORS TESTED? ##! YES
-    def post(self, request):
-        request.data['owner'] = request.user.id
+    # ? POST to start a chat.
+    # TESTED? ##! NO
+    # ERRORS TESTED? ##! NO
+    def post(self, request, pk):
+        request.data['current_user'] = request.user.id
+        request.data['second_user'] = pk
+        print(request.data['second_user'])
         self.find_user(request.data['second_user'])
         start_chat = ChatsSerializer(data=request.data)
         if start_chat.is_valid():
+            print(start_chat)
             start_chat.save()
             return Response(start_chat.data, status=status.HTTP_201_CREATED)

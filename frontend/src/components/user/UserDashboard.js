@@ -1,26 +1,57 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import useFetch from '../../utils/useFetch'
-import { getDashboard } from '../../lib/api'
+import { getDashboard, deleteFromFavs, beginChat } from '../../lib/api'
 import Message from './Message'
+import Liked from './Liked'
 
 
 function UserDashboard() {
   const { data: user, loading, error } = useFetch(getDashboard)
 
-  console.log(user)
+  const handleDelete = async (e) => {
+    console.log(e.target.value)
+    const res = await deleteFromFavs(e.target.value)
+    window.location.reload()
+
+    console.log(res)
+  }
+
+  const handleMessageStart = async e => {
+    try {
+      const res = await beginChat(e.target.value)
+      console.log(res)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // console.log(user)
 
   if (error) {
     return <Redirect to="/notfound" />
   }
 
   return (
-    <>
+    <div className="main-page">
       {loading ? <h1>loading</h1> :
-        <div className="main-page">
-          <h1>My profile</h1>
-          <img className="user-dashboard" src={user.profile_image} alt={`${user.username}'s image`} height='200' width='200'/>
-          <h3>{user.username}</h3>
+        <div>
+          <div className="profile-top">
+            <h1>My profile</h1>
+            <img className="user-dashboard" src={user.profile_image} alt={`${user.username}`} height='200' width='200' />
+            <h3>{user.username}</h3>
+          </div>
+          <div className="favourites">
+            <h1>Favourites</h1>
+            {user.liked_owner.map(liked => (
+              <Liked
+                key={liked.id}
+                {...liked}
+                handleDelete={handleDelete}
+                handleMessageStart={handleMessageStart}
+              />
+            ))}
+          </div>
           <div className="chats">
             {user.chat_user_one.map(chat => (
               <Message
@@ -60,7 +91,7 @@ function UserDashboard() {
             </div>
           </div>
         </div>}
-    </>
+    </div>
   )
 }
 

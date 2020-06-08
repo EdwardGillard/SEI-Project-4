@@ -7,6 +7,7 @@ function Navbar() {
 
   const handleLogout = () => {
     logout()
+    window.location.reload()
     history.push('/')
   }
 
@@ -21,6 +22,7 @@ function Navbar() {
           {!isAuthenticated() && <Link className="nav-item" to="/login">Login</Link>}
           {!isAuthenticated() && <Link className="nav-item" to="/register">Sign up</Link>}
           {isAuthenticated() && <span className="nav-item" onClick={handleLogout}>Log Out</span>}
+          {isAuthenticated() && <Link className="nav-item" to="/findlove">Find Love</Link>}
         </div>
       </div>
     </nav>
