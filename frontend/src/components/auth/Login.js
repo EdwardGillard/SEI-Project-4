@@ -26,13 +26,12 @@ function Login() {
   }
 
   if (!formData) return null
-  // console.log(formData)
   return (
-    <div>
+    <div className="main-page" >
       <h1>Login Page</h1>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div>
+      <div className="auth-box login-box">
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="auth-input">
             <label>Email:</label>
             <input
               type="text"
@@ -41,8 +40,8 @@ function Login() {
               onChange={handleChange}
             />
           </div>
-          <div>
-            <label>Password</label>
+          <div className="auth-input">
+            <label>Password:</label>
             <input
               type="password"
               name="password"

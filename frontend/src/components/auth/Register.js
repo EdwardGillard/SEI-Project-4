@@ -33,7 +33,6 @@ function Register() {
     try {
       const res = await register(formData)
       setToken(res.data.token)
-      console.log(res)
       history.push('/login')
     } catch (err) {
       console.log(err)
@@ -41,13 +40,12 @@ function Register() {
   }
 
   if (!formData) return null
-  // console.log(formData)
   return (
-    <div>
-      <h1>Login Page</h1>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div>
+    <div className="main-page">
+      <h1>Register Page</h1>
+      <div className="auth-box">
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="auth-input">
             <label>Email:</label>
             <input
               type="text"
@@ -56,7 +54,7 @@ function Register() {
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="auth-input">
             <label>First name:</label>
             <input
               type="text"
@@ -65,7 +63,7 @@ function Register() {
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="auth-input">
             <label>Profile Image:</label>
             <input
               type="text"
@@ -74,7 +72,7 @@ function Register() {
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="auth-input">
             <label>Username:</label>
             <input
               type="text"
@@ -83,8 +81,8 @@ function Register() {
               onChange={handleChange}
             />
           </div>
-          <div>
-            <label>Password</label>
+          <div className="auth-input">
+            <label>Password:</label>
             <input
               type="password"
               name="password"
@@ -92,8 +90,8 @@ function Register() {
               onChange={handleChange}
             />
           </div>
-          <div>
-            <label>Confirm your password</label>
+          <div className="auth-input">
+            <label>Confirm your password:</label>
             <input
               type="password"
               name="password_confirmation"
@@ -101,7 +99,7 @@ function Register() {
               onChange={handleChange}
             />
           </div>
-          <div>
+          <div className="auth-input">
             <label>Postcode:</label>
             <input
               type="text"
@@ -110,8 +108,8 @@ function Register() {
               onChange={handleChange}
             />
           </div>
-          <div>
-            <label>Your gender</label>
+          <div className="auth-select">
+            <label>Your gender:</label>
             <select
               name="gender"
               onChange={handleChange}
@@ -119,11 +117,10 @@ function Register() {
               <option value=""></option>
               <option value="M">Male</option>
               <option value="F">Female</option>
-              <option value="X">Other</option>
             </select>
           </div>
-          <div>
-            <label>Your interested in</label>
+          <div className="auth-select">
+            <label>Youre interested in...</label>
             <select
               name="gender_preference"
               onChange={handleChange}
@@ -134,57 +131,64 @@ function Register() {
               <option value="B">Both</option>
             </select>
           </div>
-          <div>
+          <div className="auth-textarea">
             <label>About you:</label>
             <textarea
+              maxLength="400"
               onChange={handleChange}
               name="about_bio"
               value={formData.about_bio}
             />
           </div>
-          <div>
+          <div className="auth-textarea">
             <label>Interests:</label>
             <textarea
+              maxLength="300"
               onChange={handleChange}
               name="other_interests"
               value={formData.other_interests}
             />
           </div>
-          <div>
+          <div className="auth-textarea">
             <label>Important political issues to you:</label>
             <textarea
+              maxLength="300"
               onChange={handleChange}
               name="political_preferences"
               value={formData.political_preferences}
             />
           </div>
-          <div>
+          <div className="auth-textarea">
             <label>Some music you like:</label>
             <textarea
+              maxLength="300"
               onChange={handleChange}
               name="music_preferences"
               value={formData.music_preferences}
             />
           </div>
-          <div>
+          <div className="auth-textarea">
             <label>Some of your favourite books:</label>
             <textarea
+              maxLength="300"
               onChange={handleChange}
               name="literature_preferences"
               value={formData.literature_preferences}
             />
           </div>
-          <div>
+          <div className="auth-textarea">
             <label>Some of your favourite films:</label>
             <textarea
+              maxLength="300"
               onChange={handleChange}
               name="film_preferences"
               value={formData.film_preferences}
             />
           </div>
-          <div>
+          <div className="auth-textarea">
             <label>Some of your favourite TV shows:</label>
             <textarea
+              maxLength="300"
               onChange={handleChange}
               name="television_preferences"
               value={formData.television_preferences}

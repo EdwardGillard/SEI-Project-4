@@ -9,7 +9,7 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 from django.conf import settings
 import jwt
-from .serializers import UserSerializer, PopulatedUserSerializer, UserUpdateSerializer
+from .serializers import UserSerializer, PopulatedUserSerializer, UpdateUserSerializer
 
 ##? Get the user
 User = get_user_model()
@@ -82,11 +82,11 @@ class ProfileView(APIView):
         return Response(serialized_user.data)
 
     ##? UPDATE user information.
-    ## TESTED? ##! NO
-    ## ERRORS TESTED? ##! NO
+    ## TESTED? ##! YES
+    ## ERRORS TESTED? ##! YES
     def put(self, request):
         user_to_update = self.get_user(username= request.user.username)
-        updated_user = UserSerializer(user_to_update, data=request.data)
+        updated_user = UpdateUserSerializer(user_to_update, data=request.data, context={'request': 'update'})
         if updated_user.is_valid():
             updated_user.save()
             return Response(updated_user.data, status=status.HTTP_202_ACCEPTED)

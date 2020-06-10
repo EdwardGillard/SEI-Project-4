@@ -48,6 +48,16 @@ export const getAUser = username => {
   return axios.get(`${datingAppUrl}/auth/profile/${username}/`, withHeaders())
 }
 
+//? PUT TO EDIT CURRENT USER.
+export const editProfile = data => {
+  return axios.put(`${datingAppUrl}/auth/myprofile/`, data, withHeaders())
+}
+
+//? DELETE USER PROFILE.
+export const deleteProfile = () => {
+  return axios.delete(`${datingAppUrl}/auth/myprofile/`,  withHeaders())
+}
+
 //! --------------- LIKES/DISLIKES ----------------
 
 //? ADD USER TO FAVOURITES.
@@ -70,10 +80,10 @@ export const addToDisliked = data => {
 //? START A CHAT. 
 export const beginChat = id => {
   console.log(withHeaders())
-  return axios.post(`${datingAppUrl}/chats/${id}/`, withHeaders())
+  return axios.post(`${datingAppUrl}/chats/${id}/`, {},  withHeaders())
 }
 
 //? REPLY TO CHAT.
-export const sendReply = data => {
-  return axios.post(`${datingAppUrl}/responses`, data, withHeaders())
+export const sendReply = (id,data) => {
+  return axios.post(`${datingAppUrl}/responses/${id}/`, data, withHeaders())
 }

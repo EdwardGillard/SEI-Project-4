@@ -8,7 +8,6 @@ class User(AbstractUser):
     class Gender(models.TextChoices):
         MALE = 'M', _('Male')
         FEMALE = 'F', _('Female')
-        OTHER = 'X', _('Unspecified')
 
     class GenderPref(models.TextChoices):
         MALE = 'M', _('Male')

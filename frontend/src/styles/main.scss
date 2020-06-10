@@ -2,23 +2,36 @@
 
 //! ------- BODY --------
 body {
-  background-color: rgb(202, 198, 198);
+  background-color: rgb(51, 45, 45);
   margin: 0;
+  font-family: "Balsamiq Sans", cursive;
+  h1 {
+    color: rgb(165, 241, 13);
+  }
 }
 
-//! -------- EACH PAGE ---------
+button {
+  width: 100%;
+  margin: 5px 0;
+  padding: 5px;
+  background-color: rgba(165, 241, 13, 1);
+}
 
 .main-page {
   min-width: 90%;
-  background-color: rgb(202, 198, 198);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+small{
+  margin: -15px 0 10px 0;
+}
+
 //! ------- NAVBAR --------
 nav {
-  background-color: rgba(165, 241, 13, 0.5);
+  background-color: rgb(165, 241, 13);
+  border-bottom: 2px solid white;
   min-width: 100%;
   margin: 0 auto;
   display: flex;
@@ -45,6 +58,24 @@ nav {
   }
 }
 
+//! ------- HOME PAGE --------
+
+.home-page{
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .background-home{
+    background-image: url(../components/assets/BlindDatesMain.jpeg);
+    height: 350px;
+    width: 350px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+}
+
 //! ------- USER PAGE --------
 
 .profile-top {
@@ -52,16 +83,25 @@ nav {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  .buttons {
+    display: flex;
+    justify-content: center;
+    button {
+      width: 20vw;
+    }
+  }
   .user-dashboard {
     max-width: 200px;
     max-height: 200px;
     border-radius: 50%;
+    border: 2px solid white;
+    margin: 0 0 10px 0;
   }
 }
 
 .favourites {
   text-align: center;
-  width: 100%;
+  min-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,38 +111,90 @@ nav {
     justify-content: space-between;
     align-items: center;
     background-color: white;
-    max-height: 100px;
+    max-height: 80px;
     padding: 10px;
-    width: 80%;
-    margin: 10px 30px;
-    .liked-image{
-      max-height: 100px;
-      max-width: 100px;
+    margin: 5px;
+    width: 90vw;
+    .liked-image {
+      max-height: 80px;
+      max-width: 80px;
       border-radius: 50%;
     }
     .profile-buttons {
       display: flex;
       flex-direction: column;
       align-items: center;
-      button {
+    }
+  }
+}
+.message-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalcasing {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  .modal {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    max-height: 50vh;
+    width: 100%;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    z-index: 99;
+    .messages {
+      min-height: 40vh;
+      min-width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: scroll;
+      .message {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
-        margin: 5px 0;
-        padding: 5px;
-        background-color: rgba(165, 241, 13, 0.5);
+      }
+      .message-card {
+        width: 80%;
+        background-color: white;
+        margin: 3px 3px;
+        padding: 2px 5px;
+        overflow: hidden;
+        word-break: break-all;
+        p {
+          text-align: left;
+        }
+      }
+    }
+    .messages-input {
+      height: 10vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      button {
+        width: 85%;
       }
     }
   }
 }
 
+
 .info {
-  margin: 30px 0;
+  margin: 30px 0 50px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   word-break: break-all;
+  min-width: 100%;
   .info-section {
-    max-width: 80%;
+    width: 80%;
     background-color: white;
     margin: 10px 0;
     padding: 10px;
@@ -111,5 +203,71 @@ nav {
     justify-content: center;
     align-items: flex-start;
     word-break: break-all;
+  }
+}
+
+//! ------- LOGIN & REGISTER PAGE --------
+
+.login-box {
+  max-height: 30vh;
+}
+
+.auth-box {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: white;
+  height: 60vh;
+  margin: 20px;
+  padding: 10px 0;
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: scroll;
+    button {
+      margin: 20px 0;
+    }
+    .auth-input {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 80%;
+      input {
+        width: 100%;
+        height: 30px;
+        font-size: 20px;
+        background-color: rgb(202, 198, 198);
+        color: black;
+      }
+    }
+    .auth-select {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 80%;
+      select {
+        min-width: 100%;
+        height: 30px;
+        font-size: 20px;
+        background-color: rgb(202, 198, 198);
+        color: black;
+      }
+    }
+    .auth-textarea {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 80%;
+      textarea {
+        width: 100%;
+        height: 30px;
+        font-size: 15px;
+        background-color: rgb(202, 198, 198);
+        color: black;
+      }
+    }
   }
 }

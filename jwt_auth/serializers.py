@@ -17,6 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     ##? Validate password using dictionary of fields user is trying to create.
     def validate(self, data):
+        print(self.context)
         password = data.pop('password') ##removes password off of the data
         password_confirmation = data.pop('password_confirmation')
         if password !=password_confirmation: ##! If the password doesnt match the password confirmation...
@@ -31,11 +32,13 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-
-class UserUpdateSerializer(serializers.ModelSerializer):
+        
+        
+class UpdateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        exclude = ('password', )
+
 
 class PopulatedUserSerializer(UserSerializer):
     liked_user=PopulatedLikedSerializer(many=True)

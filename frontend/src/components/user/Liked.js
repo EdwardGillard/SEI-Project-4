@@ -1,24 +1,43 @@
 import React from 'react'
-import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import Message from './Message'
 
 function Liked(props) {
-  const [liked] = useState(props)
+  const [liked] = React.useState(props.liked_user)
 
-  console.log(liked)
+  const findChat = () => {
+    if (!props || !liked) return null
+    return props.currentUser.chat_user_one.filter(chat => liked.id === chat.second_user.id)
+  }
+
 
   if (!liked) return null
-
   return (
-    <div className="fav-user-card">
-      <img className="liked-image"src={liked.liked_user.profile_image} alt={liked.liked_user.username} height='100' width='100' />
-      <p> {liked.liked_user.username}</p>
-      <div className="profile-buttons">
-        <button value={liked.liked_user.id} onClick={props.handleMessageStart}>Message</button>
-        <button value={liked.id} onClick={props.handleDelete}>Remove</button>
+    <div>
+      <div className="fav-user-card">
+        <Link to={`profile/${liked.username}`}>
+          <img className="liked-image" src={liked.profile_image} alt={liked.username} height='100' width='100' />
+        </Link>
+        <Link to={`profile/${liked.username}`}><p> {liked.username}</p></Link>
+        <div className="profile-buttons">
+          <button onClick={props.handleMessageStart && props.toggleModal} value={liked.id}>Message</button>
+          <div className="chats">
+          </div>
+          <button value={props.id} onClick={props.handleDelete}>Remove</button>
+        </div>
       </div>
-
-
+      <div className="message-board">
+        <Message
+          modalStatus={props.modalStatus}
+          toggleModal={props.toggleModal}
+          formData={props.formData}
+          handleMessageChange={props.handleMessageChange}
+          sendMessage={props.sendMessage}
+          {...findChat()[0]}
+        />
+      </div>
     </div>
+
   )
 
 

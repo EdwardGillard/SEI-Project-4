@@ -23,13 +23,11 @@ class ChatsListView(APIView):
             raise NotFound({'message': 'Not a valid user'})
         
     # ? POST to start a chat.
-    # TESTED? ##! NO
+    # TESTED? ##! NOT WORKING FRONT END/ INSOMNIA WORKS
     # ERRORS TESTED? ##! NO
     def post(self, request, pk):
-        print(request)
         request.data['owner'] = request.user.id
         request.data['second_user'] = pk
-        print(request.data['second_user'])
         self.find_user(request.data['second_user'])
         start_chat = ChatsSerializer(data=request.data)
         if start_chat.is_valid():

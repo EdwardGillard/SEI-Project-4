@@ -3,23 +3,33 @@ import { useState } from 'react'
 
 function Message(props) {
   const [message] = useState(props)
-
-  console.log(message)
   return (
-    <div>
-      <div>
-        <img src={message.second_user.profile_image} alt={message.second_user.username} height='100' width='100' />
-        <p>{message.second_user.username}</p>
-      </div>
-      <div>
-        {message.response.map(res => (
-          <div key={res.id}>
-            <p>{res.owner.username}</p>
-            <p>{res.response}</p>
+    <div className="modalcasing">
+      {props.modalStatus ? null
+        :
+        <div className="modal">
+          <div className="messages">
+            <div className="message">
+              {message.response.map(res => (
+                <div className="message-card" key={res.id}>
+                  <small>{res.owner.username}</small>
+                  <p>{res.response}</p>
+                </div>
+              ))}
+            </div>
+            <div>
+              <form className="messages-input">
+                <textarea
+                  name="response"
+                  value={props.formData.response}
+                  onChange={props.handleMessageChange}
+                />
+                <button onClick={props.sendMessage} value={props.id}>Submit</button>
+              </form>
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
+        </div>}
+    </div >
   )
 }
 

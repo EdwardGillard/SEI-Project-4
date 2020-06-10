@@ -1,32 +1,30 @@
 import React from 'react'
-
 const initialState = {
   data: null,
   error: null,
   loading: true
 }
-
-//! CUSTOM HOOK TO RETRIEVE DATA
 function useFetch(request, params = null) {
   const [state, setState] = React.useState(initialState)
-
-  React.useEffect(() => {
-    const getData = async () => {
+  const getData = React.useCallback(
+    async () => {
       try {
-        //! SEND DATA TO AXIOS REQ AND DESTRUCTURE RESPONSE
         const { data } = await request(params)
-        setState({ error: null, loading: false, data: data })
+        setState({ data, loading: false, error: null })
       } catch (err) {
         setState({ error: true, loading: false, data: null })
       }
-    }
-    //! CALL THE FUNCTION
+    }, [request, params])
+  React.useEffect(() => {
     getData()
-    //! LISTEN FOR CHANGES IN REQUEST AND PARAMS
-  }, [request, params])
-
-  //! RETURN THE STATE BACK TO CALL
-  return state
+  }, [getData])
+  const refetchData = () => {
+    setState(initialState)
+    getData()
+  }
+  return {
+    ...state,
+    refetchData
+  }
 }
-
 export default useFetch
