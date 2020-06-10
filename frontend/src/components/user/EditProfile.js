@@ -1,19 +1,22 @@
 import React from 'react'
-// import { Redirect } from 'react-router-dom'
-// import { getDashboard } from '../../lib/api'
+import { useHistory } from 'react-router-dom'
+import { getDashboard, editProfile } from '../../lib/api'
 
 function EditProfile() {
-  const [formData, setFormData] = React.useState()
+  const [formData, setFormData] = React.useState(null)
+  const history = useHistory()
 
-  // const useEffect = async () => {
-  //   try {
-  //     const res = await getDashboard()
-  //     console.log(res)
-  //     setFormData({ formData: res.data })
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
+  React.useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await getDashboard()
+        setFormData(res.data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    getData()
+  }, [])
 
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -22,21 +25,20 @@ function EditProfile() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      // const res = await register(formData)
-      // setToken(res.data.token)
-      // console.log(res)
-      // history.push('/login')
+      const res = await editProfile(formData)
+      console.log(res.data)
+      history.push('/myprofile')
     } catch (err) {
       console.log(err.response.data)
     }
   }
 
-  console.log(formData)
-
   if (!formData) return null
+
+  console.log(formData)
   return (
     <div className="main-page">
-      <h1>Register Page</h1>
+      <h1>Edit your profile</h1>
       <div className="auth-box">
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="auth-input">
@@ -90,7 +92,7 @@ function EditProfile() {
               name="gender"
               onChange={handleChange}
               value={formData.gender}>
-              <option value=""></option>
+              <option disabled value=""></option>
               <option value="M">Male</option>
               <option value="F">Female</option>
             </select>
@@ -101,7 +103,7 @@ function EditProfile() {
               name="gender_preference"
               onChange={handleChange}
               value={formData.gender_preference}>
-              <option value=""></option>
+              <option disabled value=""></option>
               <option value="M">Male</option>
               <option value="F">Female</option>
               <option value="B">Both</option>
@@ -111,6 +113,7 @@ function EditProfile() {
             <label>About you:</label>
             <textarea
               maxLength="400"
+              rows="10"
               onChange={handleChange}
               name="about_bio"
               value={formData.about_bio}
@@ -120,6 +123,7 @@ function EditProfile() {
             <label>Interests:</label>
             <textarea
               maxLength="300"
+              rows="10"
               onChange={handleChange}
               name="other_interests"
               value={formData.other_interests}
@@ -129,6 +133,7 @@ function EditProfile() {
             <label>Important political issues to you:</label>
             <textarea
               maxLength="300"
+              rows="10"
               onChange={handleChange}
               name="political_preferences"
               value={formData.political_preferences}
@@ -138,6 +143,7 @@ function EditProfile() {
             <label>Some music you like:</label>
             <textarea
               maxLength="300"
+              rows="10"
               onChange={handleChange}
               name="music_preferences"
               value={formData.music_preferences}
@@ -147,6 +153,7 @@ function EditProfile() {
             <label>Some of your favourite books:</label>
             <textarea
               maxLength="300"
+              rows="10"
               onChange={handleChange}
               name="literature_preferences"
               value={formData.literature_preferences}
@@ -156,6 +163,7 @@ function EditProfile() {
             <label>Some of your favourite films:</label>
             <textarea
               maxLength="300"
+              rows="10"
               onChange={handleChange}
               name="film_preferences"
               value={formData.film_preferences}
@@ -165,6 +173,7 @@ function EditProfile() {
             <label>Some of your favourite TV shows:</label>
             <textarea
               maxLength="300"
+              rows="10"
               onChange={handleChange}
               name="television_preferences"
               value={formData.television_preferences}

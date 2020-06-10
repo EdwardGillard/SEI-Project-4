@@ -3,27 +3,29 @@ import { Link } from 'react-router-dom'
 import Message from './Message'
 
 function Liked(props) {
-  const [liked] = React.useState(props.liked_user)
+  const [match] = React.useState(props.match)
 
   const findChat = () => {
-    if (!props || !liked) return null
-    return props.currentUser.chat_user_one.filter(chat => liked.id === chat.second_user.id)
+    if (!props || !match) return null
+    const chats = props.currentUser.inbox.concat(props.currentUser.outbox)
+    return chats.filter(chat => match.liked_user.id === chat.second_user.id)
   }
 
 
-  if (!liked) return null
+  if (!match) return null
+  console.log('this', props)
   return (
     <div>
       <div className="fav-user-card">
-        <Link to={`profile/${liked.username}`}>
-          <img className="liked-image" src={liked.profile_image} alt={liked.username} height='100' width='100' />
+        <Link to={`profile/${match.liked_user.username}`}>
+          <img className="liked-image" src={match.liked_user.profile_image} alt={match.liked_user.username} height='100' width='100' />
         </Link>
-        <Link to={`profile/${liked.username}`}><p> {liked.username}</p></Link>
+        <Link to={`profile/${match.liked_user.username}`}><p> {match.liked_user.username}</p></Link>
         <div className="profile-buttons">
-          <button onClick={props.handleMessageStart && props.toggleModal} value={liked.id}>Message</button>
+          <button onClick={props.handleMessageStart && props.toggleModal} value={match.liked_user.id}>Message</button>
           <div className="chats">
           </div>
-          <button value={props.id} onClick={props.handleDelete}>Remove</button>
+          <button value={match.liked_user.id} onClick={props.handleDelete}>Remove</button>
         </div>
       </div>
       <div className="message-board">
@@ -37,7 +39,6 @@ function Liked(props) {
         />
       </div>
     </div>
-
   )
 
 

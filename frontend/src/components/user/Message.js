@@ -3,6 +3,7 @@ import { useState } from 'react'
 
 function Message(props) {
   const [message] = useState(props)
+  console.log('message', message)
   return (
     <div className="modalcasing">
       {props.modalStatus ? null
@@ -10,18 +11,18 @@ function Message(props) {
         <div className="modal">
           <div className="messages">
             <div className="message">
-              {message.response.map(res => (
+              {message.reply.map(res => (
                 <div className="message-card" key={res.id}>
                   <small>{res.owner.username}</small>
-                  <p>{res.response}</p>
+                  <p>{res.reply}</p>
                 </div>
               ))}
             </div>
             <div>
               <form className="messages-input">
                 <textarea
-                  name="response"
-                  value={props.formData.response}
+                  name="reply"
+                  value={props.formData.reply}
                   onChange={props.handleMessageChange}
                 />
                 <button onClick={props.sendMessage} value={props.id}>Submit</button>

@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import NotFound, PermissionDenied
 
-from chats.models import Chats
+from chats.models import Chat
 from jwt_auth.models import User
 
 from .serializers import ResponsesSerializer
@@ -18,8 +18,8 @@ class ResponsesListView(APIView):
     ##? FIND the chat.
     def find_chat(self, pk):
         try:
-            return Chats.objects.get(pk=pk)
-        except Chats.DoesNotExist:
+            return Chat.objects.get(pk=pk)
+        except Chat.DoesNotExist:
             raise PermissionDenied({'message': 'Unable to find this chat'})
     
     ##? POST to chat.
@@ -29,7 +29,7 @@ class ResponsesListView(APIView):
         request.data['owner'] = request.user.id
         self.find_chat(pk)
         request.data['chat'] = pk
-        responses = ResponsesSerializer(data=request.data)
-        if responses.is_valid():
-            responses.save()
-            return Response(responses.data, status=status.HTTP_201_CREATED)
+        reply = ResponsesSerializer(data=request.data)
+        if reply.is_valid():
+            reply.save()
+            return Response(reply.data, status=status.HTTP_201_CREATED)

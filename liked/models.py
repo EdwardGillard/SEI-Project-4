@@ -6,12 +6,12 @@ User = get_user_model()
 class Liked(models.Model):
     liked_user = models.ForeignKey(
         'jwt_auth.User',
-        related_name='liked_user',
+        related_name='liked_by',
         on_delete=models.CASCADE
     )
     owner = models.ForeignKey(
         'jwt_auth.User', 
-        related_name='liked_owner', 
+        related_name='users_liked', 
         on_delete=models.CASCADE
         )
 

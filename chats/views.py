@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import NotFound, PermissionDenied
 
-from .models import Chats
+from .models import Chat
 from jwt_auth.models import User
 
 from .serializers import ChatsSerializer
@@ -23,11 +23,10 @@ class ChatsListView(APIView):
             raise NotFound({'message': 'Not a valid user'})
         
     # ? POST to start a chat.
-    # TESTED? ##! NOT WORKING FRONT END/ INSOMNIA WORKS
-    # ERRORS TESTED? ##! NO
-    def post(self, request, pk):
+    # TESTED? ##! YES
+    # ERRORS TESTED? ##! YES
+    def post(self, request):
         request.data['owner'] = request.user.id
-        request.data['second_user'] = pk
         self.find_user(request.data['second_user'])
         start_chat = ChatsSerializer(data=request.data)
         if start_chat.is_valid():

@@ -61,13 +61,9 @@ export const deleteProfile = () => {
 //! --------------- LIKES/DISLIKES ----------------
 
 //? ADD USER TO FAVOURITES.
-export const addToFavourites = data => {
+export const ToggleFavs = data => {
+  console.log(data)
   return axios.post(`${datingAppUrl}/liked/`, data, withHeaders())
-}
-
-//? DELETE A USER FROM FAVOURITES.
-export const deleteFromFavs = id => {
-  return axios.delete(`${datingAppUrl}/liked/${id}`, withHeaders())
 }
 
 //? ADD USER TO DISLIKES.

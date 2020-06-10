@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import Chats
+from .models import Chat
 
-admin.site.register(Chats)
+admin.site.register(Chat)

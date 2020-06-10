@@ -41,11 +41,12 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 
 
 class PopulatedUserSerializer(UserSerializer):
-    liked_user=PopulatedLikedSerializer(many=True)
-    liked_owner=PopulatedLikedSerializer(many=True)
-    disliked_owner=PopulatedDislikedSerializer(many=True)
-    disliked_user=PopulatedDislikedSerializer(many=True)
-    chat_user_one=PopulatedChatSerializer(many=True)
+    users_liked = PopulatedLikedSerializer(many=True)
+    liked_by = PopulatedLikedSerializer(many=True)
+    users_disliked = PopulatedDislikedSerializer(many=True)
+    disliked_by = PopulatedDislikedSerializer(many=True)
+    inbox = PopulatedChatSerializer(many=True)
+    outbox = PopulatedChatSerializer(many=True)
 
 
 

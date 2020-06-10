@@ -25,8 +25,8 @@ function Navbar() {
         <div className="right-nav">
           {authenticated && <Link className="nav-item" to="/findlove">Find Love</Link>}
           {authenticated && <Link className="nav-item" to='/myprofile'>My Profile</Link>}
-          {!authenticated && <Link className="nav-item" to="/login">Login</Link>}
-          {!authenticated && <Link className="nav-item" to="/register">Sign up</Link>}
+          {!authenticated && <Link className="auth-nav-item" to="/login">Login</Link>}
+          {!authenticated && <Link className="auth-nav-item" to="/register">Sign up</Link>}
           {authenticated && <span className="nav-item" onClick={handleLogout}>Log Out</span>}
         </div>
       </div>

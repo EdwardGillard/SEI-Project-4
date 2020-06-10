@@ -5,11 +5,11 @@ User = get_user_model()
 
 class Responses(models.Model):
     chat = models.ForeignKey(
-        'chats.Chats',
-        related_name='response',
+        'chats.Chat',
+        related_name='reply',
         on_delete=models.CASCADE
     )
-    response = models.CharField(max_length= 500)
+    reply = models.CharField(max_length= 500)
     owner= models.ForeignKey(
         'jwt_auth.User',
         related_name='owner',

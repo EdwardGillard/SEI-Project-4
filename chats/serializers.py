@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.apps import apps
 
 from responses.serializers import PopulatedResponseSerializer
-from .models import Chats
+from .models import Chat
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
@@ -13,10 +13,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ChatsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Chats
+        model = Chat
         fields = '__all__'
 
 class PopulatedChatSerializer(ChatsSerializer):
-    owner = UserSerializer()
     second_user = UserSerializer()
-    response=PopulatedResponseSerializer(many=True)
+    reply=PopulatedResponseSerializer(many=True)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect, Link, useHistory } from 'react-router-dom'
 import useFetch from '../../utils/useFetch'
-import { getDashboard, deleteFromFavs, beginChat, sendReply, deleteProfile } from '../../lib/api'
+import { getDashboard, ToggleFavs, beginChat, sendReply, deleteProfile } from '../../lib/api'
 import Liked from './Liked'
 import { logout } from '../../lib/auth'
 
@@ -11,34 +11,39 @@ function UserDashboard() {
   const [modalOpen, setModalOpen] = React.useState(true)
   const [infoModalOpen, setInfoModalOpen] = React.useState(true)
   const [formData, setFormData] = React.useState({
-    response: ''
+    reply: ''
   })
   const history = useHistory()
 
+  //! REMOVES FROM FAVS.
   const handleDelete = async (e) => {
-    console.log(e.target.value)
-    const res = await deleteFromFavs(e.target.value)
+    const id = e.target.value
+    const res = await ToggleFavs({ liked_user: id })
     refetchData()
     console.log(res)
   }
 
+  //! Toggles modal for messages uses modalOpen state.
   const toggleModal = () => {
     setModalOpen(!modalOpen)
   }
 
+  //! Toggles modal for Information section uses infoModalOpen. 
   const toggleInfoModal = () => {
     setInfoModalOpen(!infoModalOpen)
   }
 
+  //! Handles changes in the Message component text input adapts formData state. 
   const handleMessageChange = e => {
-    setFormData({ ...formData, response: e.target.value })
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  //! Send a message in messenger.
   const sendMessage = async e => {
     e.preventDefault()
     try {
       const res = await sendReply(e.target.value, formData)
-      setFormData({ response: '' })
+      setFormData({ reply: '' })
       console.log(res)
       refetchData()
     } catch (err) {
@@ -46,6 +51,7 @@ function UserDashboard() {
     }
   }
 
+  //! DELETE CURRENT USER PROFILE using headers.
   const deleteUserProfile = async () => {
     try {
       await deleteProfile()
@@ -68,6 +74,11 @@ function UserDashboard() {
   if (error) {
     return <Redirect to="/notfound" />
   }
+  if (!user) return null
+  //! Function to perform matches checking if users like the same people that like them.
+  const matched = user.users_liked.filter(match => {
+    return user.liked_by.some(likedUser => match.liked_user.id === likedUser.liked_user.id)
+  })
   return (
     <>
       {loading ? <h1>loading</h1> :
@@ -81,11 +92,11 @@ function UserDashboard() {
             <button onClick={deleteUserProfile}>Delete Profile</button>
           </div>
           <div className="favourites">
-            <h1>Favourites</h1>
-            {user.liked_owner.map(liked => (
+            <h1>Matches</h1>
+            {matched.map(match => (
               <Liked
-                key={liked.id}
-                {...liked}
+                key={match.id}
+                match={match}
                 handleDelete={handleDelete}
                 handleMessageStart={handleMessageStart}
                 modalStatus={modalOpen}
