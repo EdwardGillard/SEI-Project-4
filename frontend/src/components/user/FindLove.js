@@ -60,8 +60,9 @@ function FindLove() {
   return (
     <>
       {loading ?
-        <div className="main-page">
-          <h1>loading</h1>
+        <div className="home-page">
+          <div className="background-home">
+          </div>
         </div>
         :
         <div>

@@ -6,6 +6,7 @@ import { getAUser } from '../../lib/api'
 
 function ShowUser() {
   const params = useParams()
+  //! GET TARGET USER USING USERNAME
   const { data: user, loading, error } = useFetch(getAUser, params.username)
   console.log(params.username)
 

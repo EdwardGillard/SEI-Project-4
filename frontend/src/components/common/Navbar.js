@@ -7,11 +7,13 @@ function Navbar() {
   const { pathname } = useLocation()
   const history = useHistory()
 
+  //! LOG OUT USER
   const handleLogout = () => {
     logout()
     history.push('/')
   }
 
+  //! MOUNT AUTHENTICATION STATUS AND TRACK CHANGES TO THE PATHNAME.
   React.useEffect(() => {
     setAuthenticated(isAuthenticated())
   }, [pathname])

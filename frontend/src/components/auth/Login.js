@@ -9,9 +9,11 @@ function Login() {
     email: '',
     password: ''
   })
+  const [errors, setErrors] = React.useState('')
 
   const handleChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    setErrors('')
+    setFormData({ errors, ...formData, [e.target.name]: e.target.value })
   }
 
   const handleSubmit = async (e) => {
@@ -21,10 +23,11 @@ function Login() {
       setToken(res.data.token)
       history.push('/myprofile')
     } catch (err) {
-      console.log(err)
+      setErrors(err.response)
     }
   }
 
+  console.log(errors)
   if (!formData) return null
   return (
     <div className="main-page" >
@@ -38,6 +41,7 @@ function Login() {
               name="email"
               value={formData.email}
               onChange={handleChange}
+              className={errors ? 'red' : ''}
             />
           </div>
           <div className="auth-input">
@@ -47,6 +51,7 @@ function Login() {
               name="password"
               value={formData.password}
               onChange={handleChange}
+              className={errors ? 'red' : ''}
             />
           </div>
           <div>

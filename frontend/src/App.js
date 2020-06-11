@@ -9,6 +9,8 @@ import UserDashboard from './components/user/UserDashboard'
 import FindLove from './components/user/FindLove'
 import ShowUser from './components/user/ShowUser'
 import EditProfile from './components/user/EditProfile'
+import Error from './components/common/Error'
+import Footer from './components/common/Footer'
 
 function App() {
   return (
@@ -22,7 +24,9 @@ function App() {
         <Route path='/myprofile' component={UserDashboard} />
         <Route path='/findlove' component={FindLove} />
         <Route path='/profile/:username' component={ShowUser} />
+        <Route path='/*' component={Error} />
       </Switch>
+      <Footer className="Footer" />
     </BrowserRouter>
   )
 }

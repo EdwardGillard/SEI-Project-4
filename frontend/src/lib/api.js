@@ -15,13 +15,12 @@ const withHeaders = () => {
 
 
 
-//! ---------------- AXIOS REQUESTS ---------------
+//? ---------------- AXIOS REQUESTS ---------------
 
 //! ----------- AUTHENTICATION REQUESTS -----------
 
 //? LOGIN.
 export const login = data => {
-  console.log(data)
   return axios.post(`${datingAppUrl}/auth/login/`, data)
 }
 

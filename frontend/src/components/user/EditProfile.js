@@ -6,6 +6,7 @@ function EditProfile() {
   const [formData, setFormData] = React.useState(null)
   const history = useHistory()
 
+  //! RETRIEVE DATA TO SET STATE TO POPULATE CURRENT INFO IN INPUTS.
   React.useEffect(() => {
     const getData = async () => {
       try {
@@ -18,24 +19,27 @@ function EditProfile() {
     getData()
   }, [])
 
+  //! HANDLE CHANGES TO THE DATA.
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  //! PUT REQUEST TO SEND EDITED DATA.
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const res = await editProfile(formData)
-      console.log(res.data)
+      await editProfile(formData)
       history.push('/myprofile')
     } catch (err) {
       console.log(err.response.data)
     }
   }
 
-  if (!formData) return null
-
-  console.log(formData)
+  if (!formData) return (
+    <div className="home-page">
+      <div className="background-home">
+      </div>
+    </div>)
   return (
     <div className="main-page">
       <h1>Edit your profile</h1>

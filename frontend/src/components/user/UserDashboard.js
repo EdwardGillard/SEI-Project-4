@@ -17,10 +17,13 @@ function UserDashboard() {
 
   //! REMOVES FROM FAVS.
   const handleDelete = async (e) => {
-    const id = e.target.value
-    const res = await ToggleFavs({ liked_user: id })
-    refetchData()
-    console.log(res)
+    try {
+      const id = e.target.value
+      await ToggleFavs({ liked_user: id })
+      refetchData()
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   //! Toggles modal for messages uses modalOpen state.
@@ -61,7 +64,16 @@ function UserDashboard() {
       console.log(err)
     }
   }
+  if (error) {
+    return <Redirect to="/notfound" />
+  }
+  if (!user) return null
+  //! Function to perform matches checking if users like the same people that like them.
+  const matched = user.users_liked.filter(match => {
+    return user.liked_by.some(likedUser => match.liked_user.id === likedUser.liked_user.id)
+  })
 
+  //! Starts a message chain with matched user
   const handleMessageStart = async e => {
     try {
       const res = await beginChat(e.target.value)
@@ -71,17 +83,15 @@ function UserDashboard() {
       console.log(err)
     }
   }
-  if (error) {
-    return <Redirect to="/notfound" />
-  }
-  if (!user) return null
-  //! Function to perform matches checking if users like the same people that like them.
-  const matched = user.users_liked.filter(match => {
-    return user.liked_by.some(likedUser => match.liked_user.id === likedUser.liked_user.id)
-  })
+
   return (
     <>
-      {loading ? <h1>loading</h1> :
+      {loading ?
+        <div className="home-page">
+          <div className="background-home">
+          </div>
+        </div>
+        :
         <div className="main-page">
           <h1>My profile</h1>
           <div className="profile-top">

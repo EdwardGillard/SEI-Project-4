@@ -5,6 +5,7 @@ import Message from './Message'
 function Liked(props) {
   const [match] = React.useState(props.match)
 
+  //! FIND A CHAT THAT MATCHES THE MATCHED USER TO INBOX/OUTBOX USER
   const findChat = () => {
     if (!props || !match) return null
     const chats = props.currentUser.inbox.concat(props.currentUser.outbox)
@@ -12,8 +13,11 @@ function Liked(props) {
   }
 
 
-  if (!match) return null
-  console.log('this', props)
+  if (!match) return (
+    <div className="home-page">
+      <div className="background-home">
+      </div>
+    </div>)
   return (
     <div>
       <div className="fav-user-card">

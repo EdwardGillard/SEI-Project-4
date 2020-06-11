@@ -11,6 +11,7 @@ export const getToken = () => {
 }
 
 //! Take token and extract parts to confirm legitimacy.
+
 const getPayload = () => {
   const token = getToken()
   if (!token) return false

@@ -44,5 +44,4 @@ function ControlledCarousel(props) {
   )
 }
 
-
 export default ControlledCarousel

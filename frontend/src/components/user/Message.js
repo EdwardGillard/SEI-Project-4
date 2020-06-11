@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 function Message(props) {
   const [message] = useState(props)
-  console.log('message', message)
+  
   return (
     <div className="modalcasing">
       {props.modalStatus ? null

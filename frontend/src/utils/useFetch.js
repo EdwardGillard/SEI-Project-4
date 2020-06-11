@@ -4,6 +4,8 @@ const initialState = {
   error: null,
   loading: true
 }
+
+//! REUSABLE CUSTOM HOOK TO HANDLE GET REQUESTS AND SET STATE 
 function useFetch(request, params = null) {
   const [state, setState] = React.useState(initialState)
   const getData = React.useCallback(
