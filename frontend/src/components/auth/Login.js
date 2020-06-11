@@ -27,7 +27,6 @@ function Login() {
     }
   }
 
-  console.log(errors)
   if (!formData) return null
   return (
     <div className="main-page" >

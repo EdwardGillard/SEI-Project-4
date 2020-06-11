@@ -17,17 +17,27 @@ function FindLove() {
   const [index, setIndex] = React.useState(0)
 
   //? FUNCTION TO FILTER USERS SUITABLE TO CURRENT USERS WANTS.
-  const filterUsers = users => {
+  const genderFilter = users => {
     if (!users || !currentUser) return null
-    if (currentUser.gender_preference === 'B') return users
-    return users.filter(user => user.gender === currentUser.gender_preference)
+    if (currentUser.gender_preference === 'B') {
+      return users
+    } else {
+      return users.filter(user => user.gender === currentUser.gender_preference)
+    }
   }
+
+  if (!users || !currentUser) return null
+  const combined = currentUser.users_disliked.map(disliked => disliked.disliked_user).concat(currentUser.users_liked.map(liked => liked.liked_user.id))
+  const filtered = genderFilter(users).filter(user => {
+    if (user.id !== currentUser.id ) return !combined.includes(user.id)
+  })
 
   //? Function to add user to favourites: ONSWIPERIGHT for mobile/tablet, ONCLICK for desktop.
   const addToFavs = async () => {
     try {
-      await ToggleFavs({ liked_user: users[index].id })
-      if (index < filterUsers(users).length - 1) {
+      const res = await ToggleFavs({ liked_user: filtered[index].id })
+      console.log(res)
+      if (index < filtered.length - 1) {
         setIndex(index + 1)
       } else {
         setNoMore(true)
@@ -41,8 +51,8 @@ function FindLove() {
   //*? Function to add user to reject pile: ONSWIPELEFT for mobile/tablet, ONCLICK for desktop.
   const disliked = async () => {
     console.log('swipped left')
-    await addToDisliked({ disliked_user: users[index].id })
-    if (index < filterUsers(users).length - 1) {
+    await addToDisliked({ liked_user: filtered[index].id })
+    if (index < filtered.length - 1) {
       console.log('Okay')
       setIndex(index + 1)
     } else {
@@ -56,7 +66,12 @@ function FindLove() {
     return <Redirect to="/notfound" />
   }
   //*! AWAIT FILTER USERS FUNCTION BEFORE RENDERING.
-  if (filterUsers(users) === null) return null
+  if (filtered.length < 1) return (
+    <div className="main-page">
+      <h1>No users available</h1>
+    </div>
+  )
+
   return (
     <>
       {loading ?
@@ -72,7 +87,7 @@ function FindLove() {
           </div>
           <Swipeable onSwipedRight={addToFavs} onSwipedLeft={disliked} preventDefaultTouchmoveEvent={true}>
             <ControlledCarousel
-              user={filterUsers(users)[index]}
+              user={filtered[index]}
               noMore={noMore}
             />
           </Swipeable>

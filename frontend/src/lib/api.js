@@ -74,8 +74,8 @@ export const addToDisliked = data => {
 
 //? START A CHAT. 
 export const beginChat = id => {
-  console.log(withHeaders())
-  return axios.post(`${datingAppUrl}/chats/${id}/`, {},  withHeaders())
+  console.log(id)
+  return axios.post(`${datingAppUrl}/chats/`, id,  withHeaders())
 }
 
 //? REPLY TO CHAT.

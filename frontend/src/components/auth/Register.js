@@ -43,7 +43,7 @@ function Register() {
       const res = await postImage(data)
       setImage(res.data.url)
     } catch (err) {
-      console.log(err)
+      setErrors({ profile_image: 'Unable to upload, please try a different picture.' })
     }
   }
 
@@ -150,7 +150,7 @@ function Register() {
               onChange={handleChange}
               value={formData.gender}
               className={errors.gender ? 'red' : ''}>
-              <option value=""></option>
+              <option disabled value=""></option>
               <option value="M">Male</option>
               <option value="F">Female</option>
             </select>
@@ -165,7 +165,7 @@ function Register() {
               onChange={handleChange}
               className={errors.gender_preference ? 'red' : ''}
               value={formData.gender_preference}>
-              <option value=""></option>
+              <option disabled value=""></option>
               <option value="M">Male</option>
               <option value="F">Female</option>
               <option value="B">Both</option>

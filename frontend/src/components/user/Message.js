@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 function Message(props) {
   const [message] = useState(props)
-  
+
   return (
     <div className="modalcasing">
       {props.modalStatus ? null
@@ -22,9 +22,13 @@ function Message(props) {
               <form className="messages-input">
                 <textarea
                   name="reply"
+                  rows="5"
                   value={props.formData.reply}
                   onChange={props.handleMessageChange}
                 />
+                <div className="errors-small">
+                  {props.errors.reply && <small className="help is-danger">{props.errors.reply}</small>}
+                </div>
                 <button onClick={props.sendMessage} value={props.id}>Submit</button>
               </form>
             </div>

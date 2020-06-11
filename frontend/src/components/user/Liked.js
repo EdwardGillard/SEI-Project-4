@@ -12,6 +12,8 @@ function Liked(props) {
     return chats.filter(chat => match.liked_user.id === chat.second_user.id)
   }
 
+  console.log(findChat())
+
 
   if (!match) return (
     <div className="home-page">
@@ -26,7 +28,7 @@ function Liked(props) {
         </Link>
         <Link to={`profile/${match.liked_user.username}`}><p> {match.liked_user.username}</p></Link>
         <div className="profile-buttons">
-          <button onClick={props.handleMessageStart && props.toggleModal} value={match.liked_user.id}>Message</button>
+          <button onClick={props.toggleModal} value={match.liked_user.id}>Message</button>
           <div className="chats">
           </div>
           <button value={match.liked_user.id} onClick={props.handleDelete}>Remove</button>
@@ -40,6 +42,7 @@ function Liked(props) {
           handleMessageChange={props.handleMessageChange}
           sendMessage={props.sendMessage}
           {...findChat()[0]}
+          errors={props.errors}
         />
       </div>
     </div>

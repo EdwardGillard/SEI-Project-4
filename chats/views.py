@@ -21,6 +21,7 @@ class ChatsListView(APIView):
             return User.objects.get(pk=pk)
         except User.DoesNotExist:
             raise NotFound({'message': 'Not a valid user'})
+
         
     # ? POST to start a chat.
     # TESTED? ##! YES
@@ -30,5 +31,10 @@ class ChatsListView(APIView):
         self.find_user(request.data['second_user'])
         start_chat = ChatsSerializer(data=request.data)
         if start_chat.is_valid():
+            if Chat.objects.filter(owner=start_chat.validated_data.get('owner')).filter(second_user=start_chat.validated_data.get('second_user')).count() != 0:
+                return Response({ 'message': 'Duplicated chat'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+            if Chat.objects.filter(owner=start_chat.validated_data.get('second_user')).filter(second_user=start_chat.validated_data.get('owner')).count() != 0:
+                return Response({ 'message': 'Duplicated chat'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
             start_chat.save()
             return Response(start_chat.data, status=status.HTTP_201_CREATED)
+

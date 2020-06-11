@@ -7,6 +7,7 @@ import jwt
 ##? Get the user model.
 User = get_user_model()
 
+##! Authentication route to ensure token is correct.
 class JWTAuthentication(BasicAuthentication):
 
     ##? Function to authenticate user.

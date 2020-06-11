@@ -13,6 +13,7 @@ function UserDashboard() {
   const [formData, setFormData] = React.useState({
     reply: ''
   })
+  const [errors, setErrors] = React.useState({})
   const history = useHistory()
 
   //! REMOVES FROM FAVS.
@@ -38,6 +39,7 @@ function UserDashboard() {
 
   //! Handles changes in the Message component text input adapts formData state. 
   const handleMessageChange = e => {
+    setErrors('')
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
@@ -45,15 +47,34 @@ function UserDashboard() {
   const sendMessage = async e => {
     e.preventDefault()
     try {
-      const res = await sendReply(e.target.value, formData)
-      setFormData({ reply: '' })
-      console.log(res)
-      refetchData()
+      if (formData.reply === '') {
+        setErrors({ reply: 'Cannot send empty reply' })
+      } else {
+        const res = await sendReply(e.target.value, formData)
+        setFormData({ reply: '' })
+        console.log(res)
+        refetchData()
+      }
     } catch (err) {
-      console.log(err)
+      console.log(err.response)
     }
   }
 
+  //! Starts a message chain with matched user
+  const match = async () => {
+    try {
+      const matched = user.users_liked.filter(match => user.liked_by.some(likedUser => match.liked_user.owner === likedUser.liked_user.owner))
+      console.log('started', res.data)
+      refetchData()
+      const res = matched.forEach(match => beginChat({ second_user: match.liked_user.id }))
+    } catch (err) {
+      return null
+    }
+  }
+
+  match()
+
+  
   //! DELETE CURRENT USER PROFILE using headers.
   const deleteUserProfile = async () => {
     try {
@@ -69,21 +90,7 @@ function UserDashboard() {
   }
   if (!user) return null
   //! Function to perform matches checking if users like the same people that like them.
-  const matched = user.users_liked.filter(match => {
-    return user.liked_by.some(likedUser => match.liked_user.id === likedUser.liked_user.id)
-  })
-
-  //! Starts a message chain with matched user
-  const handleMessageStart = async e => {
-    try {
-      const res = await beginChat(e.target.value)
-      refetchData()
-      console.log(res)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
+  const matched = user.users_liked.filter(match => user.liked_by.some(likedUser => match.liked_user.owner === likedUser.liked_user.owner))
   return (
     <>
       {loading ?
@@ -108,13 +115,13 @@ function UserDashboard() {
                 key={match.id}
                 match={match}
                 handleDelete={handleDelete}
-                handleMessageStart={handleMessageStart}
                 modalStatus={modalOpen}
                 toggleModal={toggleModal}
                 currentUser={user}
                 formData={formData}
                 handleMessageChange={handleMessageChange}
                 sendMessage={sendMessage}
+                errors={errors}
               />
             ))}
           </div>
