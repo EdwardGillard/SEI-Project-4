@@ -15,6 +15,7 @@ function UserDashboard() {
   })
   const [errors, setErrors] = React.useState({})
   const history = useHistory()
+  if (!user) return null
 
   //! REMOVES FROM FAVS.
   const handleDelete = async (e) => {
@@ -27,9 +28,20 @@ function UserDashboard() {
     }
   }
 
+  console.log(user)
   //! Toggles modal for messages uses modalOpen state.
-  const toggleModal = () => {
-    setModalOpen(!modalOpen)
+  const toggleModal = (e) => {
+    const matched = user.users_liked.filter(match => user.liked_by.some(likedUser => match.liked_user.id === likedUser.owner))
+    const outboxExists = user.outbox.some(chat => matched.some(match => chat.owner === match.owner && chat.second_user.id === match.liked_user.id))
+    const inboxExists = user.inbox.some(chat => matched.some(match => chat.second_user.id === match.owner && chat.owner === match.liked_user.id))
+    if (!inboxExists && !outboxExists) {
+      beginChat({ second_user: e.target.value })
+      refetchData()
+      setModalOpen(!modalOpen)
+      console.log('chat created', e.target.value)
+    } else {
+      setModalOpen(!modalOpen)
+    }
   }
 
   //! Toggles modal for Information section uses infoModalOpen. 
@@ -60,21 +72,7 @@ function UserDashboard() {
     }
   }
 
-  //! Starts a message chain with matched user
-  const match = async () => {
-    try {
-      const matched = user.users_liked.filter(match => user.liked_by.some(likedUser => match.liked_user.owner === likedUser.liked_user.owner))
-      console.log('started', res.data)
-      refetchData()
-      const res = matched.forEach(match => beginChat({ second_user: match.liked_user.id }))
-    } catch (err) {
-      return null
-    }
-  }
 
-  match()
-
-  
   //! DELETE CURRENT USER PROFILE using headers.
   const deleteUserProfile = async () => {
     try {
@@ -90,7 +88,8 @@ function UserDashboard() {
   }
   if (!user) return null
   //! Function to perform matches checking if users like the same people that like them.
-  const matched = user.users_liked.filter(match => user.liked_by.some(likedUser => match.liked_user.owner === likedUser.liked_user.owner))
+  const matched = user.users_liked.filter(match => user.liked_by.some(likedUser => match.liked_user.id === likedUser.owner))
+  console.log(matched)
   return (
     <>
       {loading ?

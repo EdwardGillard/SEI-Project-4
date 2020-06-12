@@ -2,8 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 
 function Message(props) {
-  const [message] = useState(props)
-
+  const [message] = useState(props.chat)
   return (
     <div className="modalcasing">
       {props.modalStatus ? null
@@ -29,7 +28,7 @@ function Message(props) {
                 <div className="errors-small">
                   {props.errors.reply && <small className="help is-danger">{props.errors.reply}</small>}
                 </div>
-                <button onClick={props.sendMessage} value={props.id}>Submit</button>
+                <button onClick={props.sendMessage} value={message.id}>Submit</button>
               </form>
             </div>
           </div>

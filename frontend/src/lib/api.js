@@ -67,6 +67,7 @@ export const ToggleFavs = data => {
 
 //? ADD USER TO DISLIKES.
 export const addToDisliked = data => {
+  console.log(data)
   return axios.post(`${datingAppUrl}/disliked/`, data, withHeaders())
 }
 
@@ -74,7 +75,6 @@ export const addToDisliked = data => {
 
 //? START A CHAT. 
 export const beginChat = id => {
-  console.log(id)
   return axios.post(`${datingAppUrl}/chats/`, id,  withHeaders())
 }
 

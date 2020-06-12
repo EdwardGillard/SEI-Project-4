@@ -2,7 +2,6 @@ import React from 'react'
 
 //! DISPLAY ONE USERS AT A TIME IN THE CAROUSEL FOR A TINDER FEEL.
 function ControlledCarousel(props) {
-  console.log('carousel page', props.user)
   return (
     <>
       {props.noMore ?

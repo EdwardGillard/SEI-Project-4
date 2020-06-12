@@ -51,7 +51,7 @@ function FindLove() {
   //*? Function to add user to reject pile: ONSWIPELEFT for mobile/tablet, ONCLICK for desktop.
   const disliked = async () => {
     console.log('swipped left')
-    await addToDisliked({ liked_user: filtered[index].id })
+    await addToDisliked({ disliked_user: filtered[index].id })
     if (index < filtered.length - 1) {
       console.log('Okay')
       setIndex(index + 1)

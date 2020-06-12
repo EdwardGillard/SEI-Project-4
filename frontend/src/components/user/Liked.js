@@ -5,16 +5,12 @@ import Message from './Message'
 function Liked(props) {
   const [match] = React.useState(props.match)
 
+  const chats = props.currentUser.inbox.concat(props.currentUser.outbox)
   //! FIND A CHAT THAT MATCHES THE MATCHED USER TO INBOX/OUTBOX USER
   const findChat = () => {
     if (!props || !match) return null
-    const chats = props.currentUser.inbox.concat(props.currentUser.outbox)
-    return chats.filter(chat => match.liked_user.id === chat.second_user.id)
+    return chats.filter(chat => match.liked_user.id === chat.second_user.id || chat.owner === match.liked_user.id)
   }
-
-  console.log(findChat())
-
-
   if (!match) return (
     <div className="home-page">
       <div className="background-home">
@@ -35,15 +31,17 @@ function Liked(props) {
         </div>
       </div>
       <div className="message-board">
-        <Message
-          modalStatus={props.modalStatus}
-          toggleModal={props.toggleModal}
-          formData={props.formData}
-          handleMessageChange={props.handleMessageChange}
-          sendMessage={props.sendMessage}
-          {...findChat()[0]}
-          errors={props.errors}
-        />
+        {findChat().map(chat => (
+          <Message
+            key={chat.id}
+            modalStatus={props.modalStatus}
+            toggleModal={props.toggleModal}
+            formData={props.formData}
+            handleMessageChange={props.handleMessageChange}
+            sendMessage={props.sendMessage}
+            chat={chat}
+            errors={props.errors}
+          />))}
       </div>
     </div>
   )
