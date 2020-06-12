@@ -1,10 +1,30 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Message from './Message'
+import { beginChat } from '../../lib/api'
 
 function Liked(props) {
   const [match] = React.useState(props.match)
+  const [user] = React.useState(props.currentUser)
+  const [modalOpen, setModalOpen] = React.useState(true)
 
+  //! Toggles modal for messages uses modalOpen state. Logic to create message chain if one doesnt exist.
+  const toggleModal = (e) => {
+    //! check if outbox contains message chain matching current user and target user
+    const outboxExists = user.outbox.some(chat => chat.owner === match.owner && chat.second_user.id === match.liked_user.id)
+    //! check if inbox contains message chain matching current user and target user
+    const inboxExists = user.inbox.some(chat => chat.second_user.id === match.owner && chat.owner === match.liked_user.id)
+    //! if inbox and outbox dont contain criteria start a new message chain and refetch data.
+    if (!inboxExists && !outboxExists) {
+      beginChat({ second_user: e.target.value })
+      props.refetchData()
+      setModalOpen(!modalOpen)
+    } else {
+      setModalOpen(!modalOpen)
+    }
+  }
+
+  //! Concat inbox and out box to find the correct chat.
   const chats = props.currentUser.inbox.concat(props.currentUser.outbox)
   //! FIND A CHAT THAT MATCHES THE MATCHED USER TO INBOX/OUTBOX USER
   const findChat = () => {
@@ -24,7 +44,7 @@ function Liked(props) {
         </Link>
         <Link to={`profile/${match.liked_user.username}`}><p> {match.liked_user.username}</p></Link>
         <div className="profile-buttons">
-          <button onClick={props.toggleModal} value={match.liked_user.id}>Message</button>
+          <button onClick={toggleModal} value={match.liked_user.id}>Message</button>
           <div className="chats">
           </div>
           <button value={match.liked_user.id} onClick={props.handleDelete}>Remove</button>
@@ -34,8 +54,8 @@ function Liked(props) {
         {findChat().map(chat => (
           <Message
             key={chat.id}
-            modalStatus={props.modalStatus}
-            toggleModal={props.toggleModal}
+            modalStatus={modalOpen}
+            toggleModal={toggleModal}
             formData={props.formData}
             handleMessageChange={props.handleMessageChange}
             sendMessage={props.sendMessage}

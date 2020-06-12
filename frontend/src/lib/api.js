@@ -2,7 +2,6 @@ import axios from 'axios'
 
 import { getToken } from './auth'
 
-
 //! ------------- BASE URL -------------
 const datingAppUrl = '/api'
 
@@ -12,8 +11,6 @@ const withHeaders = () => {
     headers: { Authorization: `Bearer ${getToken()}` }
   }
 }
-
-
 
 //? ---------------- AXIOS REQUESTS ---------------
 
@@ -26,7 +23,6 @@ export const login = data => {
 
 //? REGISTER.
 export const register = data => {
-  console.log(data)
   return axios.post(`${datingAppUrl}/auth/register/`, data)
 }
 
@@ -54,20 +50,18 @@ export const editProfile = data => {
 
 //? DELETE USER PROFILE.
 export const deleteProfile = () => {
-  return axios.delete(`${datingAppUrl}/auth/myprofile/`,  withHeaders())
+  return axios.delete(`${datingAppUrl}/auth/myprofile/`, withHeaders())
 }
 
 //! --------------- LIKES/DISLIKES ----------------
 
 //? ADD USER TO FAVOURITES.
 export const ToggleFavs = data => {
-  console.log(data)
   return axios.post(`${datingAppUrl}/liked/`, data, withHeaders())
 }
 
 //? ADD USER TO DISLIKES.
 export const addToDisliked = data => {
-  console.log(data)
   return axios.post(`${datingAppUrl}/disliked/`, data, withHeaders())
 }
 
@@ -75,10 +69,10 @@ export const addToDisliked = data => {
 
 //? START A CHAT. 
 export const beginChat = id => {
-  return axios.post(`${datingAppUrl}/chats/`, id,  withHeaders())
+  return axios.post(`${datingAppUrl}/chats/`, id, withHeaders())
 }
 
 //? REPLY TO CHAT.
-export const sendReply = (id,data) => {
+export const sendReply = (id, data) => {
   return axios.post(`${datingAppUrl}/responses/${id}/`, data, withHeaders())
 }

@@ -50,7 +50,7 @@ class LoginView(APIView):
             'sub': user.id, 
             'exp': int(dt.strftime('%s'))
         }, settings.SECRET_KEY)
-        return Response({'token': token, 'message': f'Welcome back {user.username}'})
+        return Response({'token': token, 'message': f'Welcome {user.username}'})
 
 class ProfileListView(APIView):
 

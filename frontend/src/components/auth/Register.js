@@ -12,7 +12,6 @@ function Register() {
     password: '',
     password_confirmation: '',
     first_name: '',
-    postcode: '',
     gender: '',
     gender_preference: '',
     about_bio: '',

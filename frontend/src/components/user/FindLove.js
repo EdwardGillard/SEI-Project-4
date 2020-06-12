@@ -4,6 +4,7 @@ import useFetch from '../../utils/useFetch'
 import { getAllUsers, ToggleFavs, addToDisliked, getDashboard } from '../../lib/api'
 import { Swipeable } from 'react-swipeable'
 import ControlledCarousel from './ControlledCarousel'
+import { toast } from '../../lib/notifications'
 
 
 function FindLove() {
@@ -26,17 +27,17 @@ function FindLove() {
     }
   }
 
+  //! Concatenate the users liked and disliked lists and combine them with the gender filter to present unseen users that match gender preference.
   if (!users || !currentUser) return null
   const combined = currentUser.users_disliked.map(disliked => disliked.disliked_user).concat(currentUser.users_liked.map(liked => liked.liked_user.id))
   const filtered = genderFilter(users).filter(user => {
-    if (user.id !== currentUser.id ) return !combined.includes(user.id)
+    if (user.id !== currentUser.id) return !combined.includes(user.id)
   })
 
   //? Function to add user to favourites: ONSWIPERIGHT for mobile/tablet, ONCLICK for desktop.
   const addToFavs = async () => {
     try {
-      const res = await ToggleFavs({ liked_user: filtered[index].id })
-      console.log(res)
+      await ToggleFavs({ liked_user: filtered[index].id })
       if (index < filtered.length - 1) {
         setIndex(index + 1)
       } else {
@@ -44,21 +45,23 @@ function FindLove() {
       }
       refetchData()
     } catch (err) {
-      console.log(err)
+      toast('Action could not be performed')
     }
   }
 
-  //*? Function to add user to reject pile: ONSWIPELEFT for mobile/tablet, ONCLICK for desktop.
+  //? Function to add user to reject pile: ONSWIPELEFT for mobile/tablet, ONCLICK for desktop.
   const disliked = async () => {
-    console.log('swipped left')
-    await addToDisliked({ disliked_user: filtered[index].id })
-    if (index < filtered.length - 1) {
-      console.log('Okay')
-      setIndex(index + 1)
-    } else {
-      setNoMore(true)
+    try {
+      await addToDisliked({ disliked_user: filtered[index].id })
+      if (index < filtered.length - 1) {
+        setIndex(index + 1)
+      } else {
+        setNoMore(true)
+      }
+      refetchData()
+    } catch (err) {
+      toast('Action could not be performed')
     }
-    refetchData()
   }
 
   //! IF AN ERROR OCCURS IN CUSTOM HOOK REDIRECT TO ERROR PAGE.

@@ -2,6 +2,7 @@ import React from 'react'
 import { login } from '../../lib/api'
 import { useHistory } from 'react-router-dom'
 import { setToken } from '../../lib/auth'
+import { toast } from '../../lib/notifications'
 
 function Login() {
   const history = useHistory()
@@ -11,15 +12,18 @@ function Login() {
   })
   const [errors, setErrors] = React.useState('')
 
+  //! Handle changes to formData. Return Errors back to empty.
   const handleChange = e => {
     setErrors('')
     setFormData({ errors, ...formData, [e.target.name]: e.target.value })
   }
 
+  //! Log user in.
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       const res = await login(formData)
+      toast(res.data.message)
       setToken(res.data.token)
       history.push('/myprofile')
     } catch (err) {

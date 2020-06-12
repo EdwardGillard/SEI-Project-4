@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import Notifications from 'react-notify-toast'
 
 import Home from './components/common/Home'
 import Navbar from './components/common/Navbar'
@@ -15,6 +16,7 @@ import Footer from './components/common/Footer'
 function App() {
   return (
     <BrowserRouter>
+      <Notifications />
       <Navbar />
       <Switch>
         <Route exact path='/' component={Home} />

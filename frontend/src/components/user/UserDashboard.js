@@ -1,14 +1,14 @@
 import React from 'react'
 import { Redirect, Link, useHistory } from 'react-router-dom'
 import useFetch from '../../utils/useFetch'
-import { getDashboard, ToggleFavs, beginChat, sendReply, deleteProfile } from '../../lib/api'
+import { getDashboard, ToggleFavs, sendReply, deleteProfile } from '../../lib/api'
 import Liked from './Liked'
 import { logout } from '../../lib/auth'
+import { toast } from '../../lib/notifications'
 
 
 function UserDashboard() {
   const { data: user, loading, error, refetchData } = useFetch(getDashboard)
-  const [modalOpen, setModalOpen] = React.useState(true)
   const [infoModalOpen, setInfoModalOpen] = React.useState(true)
   const [formData, setFormData] = React.useState({
     reply: ''
@@ -22,25 +22,10 @@ function UserDashboard() {
     try {
       const id = e.target.value
       await ToggleFavs({ liked_user: id })
+      toast('User Removed')
       refetchData()
     } catch (err) {
-      console.log(err)
-    }
-  }
-
-  console.log(user)
-  //! Toggles modal for messages uses modalOpen state.
-  const toggleModal = (e) => {
-    const matched = user.users_liked.filter(match => user.liked_by.some(likedUser => match.liked_user.id === likedUser.owner))
-    const outboxExists = user.outbox.some(chat => matched.some(match => chat.owner === match.owner && chat.second_user.id === match.liked_user.id))
-    const inboxExists = user.inbox.some(chat => matched.some(match => chat.second_user.id === match.owner && chat.owner === match.liked_user.id))
-    if (!inboxExists && !outboxExists) {
-      beginChat({ second_user: e.target.value })
-      refetchData()
-      setModalOpen(!modalOpen)
-      console.log('chat created', e.target.value)
-    } else {
-      setModalOpen(!modalOpen)
+      toast('Could not remove user')
     }
   }
 
@@ -62,16 +47,15 @@ function UserDashboard() {
       if (formData.reply === '') {
         setErrors({ reply: 'Cannot send empty reply' })
       } else {
-        const res = await sendReply(e.target.value, formData)
+        await sendReply(e.target.value, formData)
+        toast('Message sent!')
         setFormData({ reply: '' })
-        console.log(res)
         refetchData()
       }
     } catch (err) {
-      console.log(err.response)
+      toast('Message could not be sent')
     }
   }
-
 
   //! DELETE CURRENT USER PROFILE using headers.
   const deleteUserProfile = async () => {
@@ -80,16 +64,15 @@ function UserDashboard() {
       await logout()
       history.push('/')
     } catch (err) {
-      console.log(err)
+      toast('something went wrong')
     }
   }
   if (error) {
     return <Redirect to="/notfound" />
   }
   if (!user) return null
-  //! Function to perform matches checking if users like the same people that like them.
+  //! Perform matches checking if users like the same people that like them.
   const matched = user.users_liked.filter(match => user.liked_by.some(likedUser => match.liked_user.id === likedUser.owner))
-  console.log(matched)
   return (
     <>
       {loading ?
@@ -114,8 +97,7 @@ function UserDashboard() {
                 key={match.id}
                 match={match}
                 handleDelete={handleDelete}
-                modalStatus={modalOpen}
-                toggleModal={toggleModal}
+                refetchData={refetchData}
                 currentUser={user}
                 formData={formData}
                 handleMessageChange={handleMessageChange}
