@@ -20,6 +20,7 @@ function FindLove() {
   //? FUNCTION TO FILTER USERS SUITABLE TO CURRENT USERS WANTS.
   const genderFilter = users => {
     if (!users || !currentUser) return null
+    //! If user is bi-sexual return all users. 
     if (currentUser.gender_preference === 'B') {
       return users
     } else {
@@ -29,7 +30,9 @@ function FindLove() {
 
   //! Concatenate the users liked and disliked lists and combine them with the gender filter to present unseen users that match gender preference.
   if (!users || !currentUser) return null
+  //! Array of only ids of any users in the liked or disliked array. 
   const combined = currentUser.users_disliked.map(disliked => disliked.disliked_user).concat(currentUser.users_liked.map(liked => liked.liked_user.id))
+  //! call the genderFilter function and filter it and only return users that match the gender preference that have to be seen by current user. 
   const filtered = genderFilter(users).filter(user => {
     if (user.id !== currentUser.id) return !combined.includes(user.id)
   })

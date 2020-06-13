@@ -320,7 +320,24 @@
   }
 }
 
+@media only screen and (min-width: 890px) {
+  .home-page {
+    .background-home {
+      background-image: url(../components/assets/BlindDates.jpeg);
+      height: 500px;
+      width: 500px;
+    }
+  }
+}
+
 @media only screen and (min-width: 900px) {
+  .home-page {
+    .background-home {
+      background-image: url(../components/assets/BlindDatesMain.jpeg);
+      height: 500px;
+      width: 500px;
+    }
+  }
   .info-two {
     margin: 0px;
   }
