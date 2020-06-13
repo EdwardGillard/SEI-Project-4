@@ -94,11 +94,11 @@ After this I used the models and views created on the back end to post into the 
 ![Screenshot of filter logic](ImagesForReadMe/ScreenshotOfFilterLogic.jpeg)
 
 ##### Creating matches and messages: 
-The second component containing essential logic was the *user dashboard*. There, I took all users that the current user has liked and compared them to a seperate array on the current user which supplied any users that have liked the current user. This comparison could then be used to display any **matched** users. This then passes each matched user, via a map function, down to a child component to display matched users on the dashboard. 
+The second component containing essential logic was the *user dashboard*. There, I took all users that the current user has liked and compared them to users who liked them. This comparison could then be used to display any **matched** users. This then passes each matched user, via a map function, down to a child component to display matched users on the dashboard. 
 
-On the **Liked component** I then created a function to handle a modal to display the message. I decided this was the best place to create the message chain. I firstly defined two variables that used a *some method* to return a *boolean* to check if the *inbox* or *outbox* contained a combination of the current and target user. Using this I could then use an *conditional statement* to send a post request to create a message chain, only if it doesn't already exist. I then concatenated the inbox and outbox and locate the correct chat to display relevant to the mapped user. I then called this function and sent the information down to the *message component* to display. 
+Once the *matched variable* had been created I then used that to trigger the creation of a message chain between the matched users. I firstly defined two variables that used a *some method* to return a *boolean* to check if the *inbox* or *outbox* contained any cases of a combination of the current and matched user. Using this I could then use an *conditional statement* to send a post request to create a message chain, only if it doesn't already exist. In the **Liked Component** I then concatenated the inbox and outbox together and located the correct chat to display relevant to the user. I then called this function and sent the information down to the *message component* to display. 
 
-![Screenshot of create and locate messages](ImagesForReadMe/ScreenshotForCreatingAndLocatingChat.jpeg)
+![Screenshot of create messages](ImagesForReadMe/ScreenshotForCreatingChat.jpeg)
 
 ### Styling:
 
@@ -129,6 +129,8 @@ The biggest win and probably the most satisfying part of making this app for me 
 As mentioned in wins adapting to *Python, Django and Postgres* with minimal experience and knowledge was a big hurdle to overcome. It took a lot of trial and error to get my head around deviating from Basic *CRUD* actions in Django. Manipulating incoming data to fit the apps' needs  was much trickier than I expected, fortunately I had planned ahead for setbacks on the back end so halted progress didn't impact my overall time management. 
 
 ------------------------------
+
+## **Screenshots of the Project.**
 
 ![Screenshot of User Dashboard Desktop version](ImagesForReadMe/DesktopDashboard.jpeg)
 ![Screenshot of User Profile Page Ipad](ImagesForReadMe/ShowUserProfileIpad.jpeg)

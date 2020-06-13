@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect, Link, useHistory } from 'react-router-dom'
 import useFetch from '../../utils/useFetch'
-import { getDashboard, ToggleFavs, sendReply, deleteProfile } from '../../lib/api'
+import { getDashboard, ToggleFavs, deleteProfile, beginChat } from '../../lib/api'
 import Liked from './Liked'
 import { logout } from '../../lib/auth'
 import { toast } from '../../lib/notifications'
@@ -10,10 +10,6 @@ import { toast } from '../../lib/notifications'
 function UserDashboard() {
   const { data: user, loading, error, refetchData } = useFetch(getDashboard)
   const [infoModalOpen, setInfoModalOpen] = React.useState(true)
-  const [formData, setFormData] = React.useState({
-    reply: ''
-  })
-  const [errors, setErrors] = React.useState({})
   const history = useHistory()
   if (!user) return null
 
@@ -34,29 +30,6 @@ function UserDashboard() {
     setInfoModalOpen(!infoModalOpen)
   }
 
-  //! Handles changes in the Message component text input adapts formData state. 
-  const handleMessageChange = e => {
-    setErrors('')
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
-
-  //! Send a message in messenger.
-  const sendMessage = async e => {
-    e.preventDefault()
-    try {
-      if (formData.reply === '') {
-        setErrors({ reply: 'Cannot send empty reply' })
-      } else {
-        await sendReply(e.target.value, formData)
-        toast('Message sent!')
-        setFormData({ reply: '' })
-        refetchData()
-      }
-    } catch (err) {
-      toast('Message could not be sent')
-    }
-  }
-
   //! DELETE CURRENT USER PROFILE using headers.
   const deleteUserProfile = async () => {
     try {
@@ -73,6 +46,25 @@ function UserDashboard() {
   if (!user) return null
   //! Perform matches checking if users like the same people that like them.
   const matched = user.users_liked.filter(match => user.liked_by.some(likedUser => match.liked_user.id === likedUser.owner))
+  const createChat = async () => {
+    try {
+      matched.forEach(match => {
+        //! check if outbox contains message chain matching current user and target user
+        const outboxExists = user.outbox.some(chat => chat.owner === match.owner && chat.second_user.id === match.liked_user.id)
+        //! check if inbox contains message chain matching current user and target user
+        const inboxExists = user.inbox.some(chat => chat.second_user.id === match.owner && chat.owner === match.liked_user.id)
+        //! If chat doesnt exist in inbox or out box create a new one and refresh page.
+        if (!inboxExists && !outboxExists) {
+          beginChat({ second_user: match.liked_user.id })
+          refetchData()
+        }
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  createChat()
+
   return (
     <>
       {loading ?
@@ -98,11 +90,6 @@ function UserDashboard() {
                 match={match}
                 handleDelete={handleDelete}
                 refetchData={refetchData}
-                currentUser={user}
-                formData={formData}
-                handleMessageChange={handleMessageChange}
-                sendMessage={sendMessage}
-                errors={errors}
               />
             ))}
           </div>
