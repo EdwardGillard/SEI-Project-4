@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect, Link, useHistory } from 'react-router-dom'
 import useFetch from '../../utils/useFetch'
-import { getDashboard, ToggleFavs, deleteProfile, beginChat } from '../../lib/api'
+import { getDashboard, ToggleFavs, deleteProfile, beginChat, addToDisliked } from '../../lib/api'
 import Liked from './Liked'
 import { logout } from '../../lib/auth'
 import { toast } from '../../lib/notifications'
@@ -18,6 +18,7 @@ function UserDashboard() {
     try {
       const id = e.target.value
       await ToggleFavs({ liked_user: id })
+      await addToDisliked({ disliked_user: id })
       toast('User Removed')
       refetchData()
     } catch (err) {
