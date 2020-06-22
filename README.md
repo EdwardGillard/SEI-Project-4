@@ -42,7 +42,6 @@ I began by laying out a rough backend design board out views and models that I t
 * **React Hooks**
 * Axios
 * React-router-dom
-* Bootstrap (for Carousel)
 * React-swipeable
 * Http-proxy-middleware
 * React notify toast
@@ -76,20 +75,20 @@ Using **Django** and **Python** I began by creating authentication views alongsi
 
 ## Front End.
 
-### Working with React Hooks, Swipable and Bootstrap:
+### Working with React Hooks, Swipable:
 
 As seen in the *Project brief* my class were offered the opportunity to use **React Hooks**, a syntax that we had limited opportunity to familiarize ourselves with. I decided early on to challenge myself and attempt to build the entire app in *Hooks*. Getting to work with *React Hooks* for the first time was an interesting and enjoyable experience.
 
-I also decided to adopt a **mobile first** approach to building the front end. This influenced my decision to implement **swipe interactivity** to mimic a 'Tinder style' approach to dating apps. I achieved this by using **React-swipeable** and **Bootstrap**. Both *Bootstrap* and *React-Swipeable* had very easy to navigate documentation and were surprisingly easy to work with. *Swipeable*'s in built prevent default and *event listeners* made the ability to swipe very easy.
+I also decided to adopt a **mobile first** approach to building the front end. This influenced my decision to implement **swipe interactivity** to mimic a 'Tinder style' approach to dating apps. I achieved this by using **React-swipeable**. *React-Swipeable* has very easy to navigate documentation and was surprisingly easy to work with.
 
 ### Logic:
 
 I *massively* underestimated the amount of logic in even a basic dating app. There were two main pieces of logic to consider. 
 
 ##### Filtering users to display:
-The first essential piece of logic was a *filtering functionality* to supply the Bootstrap carousel with users. Firstly, I had to cycle through each user and make a comparison between the current user's gender preference and all other user's genders using a *filter method*. 
+The first essential piece of logic was a *filtering functionality* to supply the Carousel Component with users. Firstly, I had to cycle through each user and make a comparison between the current user's gender preference and all other user's genders using a *filter method*. 
 
-After this I used the models and views created on the back end to post into the **liked or disliked lists** using the *React-Swipeable* technology mentioned above. These lists were then *concatenated into an array* which I could then filter and return only users who haven't previously appeared to the current user. This left me with an array that I could map and pass to the *Bootstrap carousel* to present the user with only unseen users matching their gender preference.
+After this I used the models and views created on the back end to post users into the **liked or disliked lists** using the *React-Swipeable*. These lists were then *concatenated into an array* which I could then filter and return only users who haven't previously appeared to the current user. This left me with an array that I could map and pass down to the *child component* to present the user with only unseen users matching their gender preference.
 
 ![Screenshot of filter logic](ImagesForReadMe/ScreenshotOfFilterLogic.jpeg)
 
