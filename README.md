@@ -131,7 +131,7 @@ As mentioned in wins adapting to *Python, Django and Postgres* with minimal expe
 
 I think my main takeaway from this project is that dating app logic is trickier than I anticipated, **but** console logging my way through that logic was a valuable use of my time and steep learning curve. 
 
-I gained alot of good experience during this project. Enhansing my knowledge of React to create the app solely in React Hooks was an interesting endeavour and I have gained a better understanding of how to create and set state in a new format.  
+I gained alot of good experience during this project. Enhancing my knowledge of React to create the app solely in React Hooks was an interesting endeavour and I have gained a better understanding of how to create and set state in a new format.  
 
 -----------------------
 
